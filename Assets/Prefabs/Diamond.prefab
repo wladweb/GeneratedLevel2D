@@ -111,5 +111,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1948cbe494bd9a64faf184cbcdb9c4bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _layer: 2
+  _layer: 3
   _chance: 10
