@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     private bool _isLanded;
     private int _coinsCount;
 
-    public event UnityAction CoinsCountChanged;
+    public event UnityAction<int> CoinsCountChanged;
 
     private void Start()
     {
@@ -43,6 +43,6 @@ public class Player : MonoBehaviour
     public void AddCoin()
     {
         _coinsCount++;
-        CoinsCountChanged?.Invoke();
+        CoinsCountChanged?.Invoke(_coinsCount);
     }
 }
