@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Collections.Generic;
+using UnityEngine;
 
 public class Generator : MonoBehaviour
 {
@@ -16,6 +16,7 @@ public class Generator : MonoBehaviour
     private void Update()
     {
         FillRange(_player.position, _range);
+        RemoveObjectsAbroadOfLeftScreenBorder(_camera);
     }
 
     private void FillRange(Vector2 center, float _range)
@@ -28,6 +29,19 @@ public class Generator : MonoBehaviour
             TryCreateGridObject(GridLayer.Ground, _areaCenter + new Vector2Int(i, 0));
             TryCreateGridObject(GridLayer.OnGround, _areaCenter + new Vector2Int(i, 0));
             TryCreateGridObject(GridLayer.InAir, _areaCenter + new Vector2Int(i, 0));
+        }
+    }
+
+    private void RemoveObjectsAbroadOfLeftScreenBorder(Camera camera, float offset = 1)
+    {
+        float leftBorderCoordX = camera.transform.position.x - camera.orthographicSize * camera.aspect;
+
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            Transform child = transform.GetChild(i);
+
+            if ((child.position.x + offset) < leftBorderCoordX)
+                Destroy(child.gameObject);
         }
     }
 
