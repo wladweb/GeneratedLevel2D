@@ -1,21 +1,16 @@
 ﻿using UnityEngine;
-using UnityEngine.Events;
+using System.Collections;
 
+[RequireComponent(typeof(AudioSource))]
 public class Coin : MonoBehaviour
 {
-    private CoinsCollectSound _collectSound;
+    private AudioSource _collectSound;
+    private SpriteRenderer _renderer;
 
-    public event UnityAction CoinCollected;
-
-    private void OnEnable()
+    private void Start()
     {
-        _collectSound = FindObjectOfType<CoinsCollectSound>();
-        CoinCollected += _collectSound.OnCoinCollected;
-    }
-
-    private void OnDisable()
-    {
-        CoinCollected -= _collectSound.OnCoinCollected;
+        _collectSound = GetComponent<AudioSource>();
+        _renderer = GetComponent<SpriteRenderer>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -23,8 +18,25 @@ public class Coin : MonoBehaviour
         if (collision.TryGetComponent<Player>(out Player player))
         {
             player.AddCoin();
-            CoinCollected?.Invoke();
-            Destroy(gameObject);
+            SetTransparency();
+            _collectSound.Play();
+
+            StartCoroutine(DestroyObjectByEndSound());
         }
+    }
+
+    private IEnumerator DestroyObjectByEndSound()
+    {
+        while (_collectSound.isPlaying)
+        {
+            yield return null;
+        }
+        
+        Destroy(gameObject);
+    }
+
+    private void SetTransparency()
+    {
+        _renderer.color = new Color(0, 0, 0, 0);
     }
 }
