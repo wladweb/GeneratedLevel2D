@@ -7,7 +7,7 @@ public class CameraMover : MonoBehaviour
 
     private void Update()
     {
-        Vector3 needlePosition = new Vector3(_player.position.x, transform.position.y, transform.position.z);
-        transform.position = Vector3.Lerp(transform.position, needlePosition, _smoothSpeed);
+        Vector3 targetPosition = new Vector3(_player.position.x, transform.position.y, transform.position.z);
+        transform.position = Vector3.Lerp(transform.position, targetPosition, _smoothSpeed);
     }
 }
