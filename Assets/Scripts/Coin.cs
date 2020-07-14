@@ -2,6 +2,7 @@
 using System.Collections;
 
 [RequireComponent(typeof(AudioSource))]
+[RequireComponent(typeof(SpriteRenderer))]
 public class Coin : MonoBehaviour
 {
     private AudioSource _collectSound;
