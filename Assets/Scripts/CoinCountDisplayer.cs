@@ -8,12 +8,12 @@ public class CoinCountDisplayer : MonoBehaviour
 
     private void OnEnable()
     {
-        _player.CoinsCountChanged += OnCoinCountChanged;
+        _player.CoinPicked += OnCoinCountChanged;
     }
 
     private void OnDisable()
     {
-        _player.CoinsCountChanged -= OnCoinCountChanged;
+        _player.CoinPicked -= OnCoinCountChanged;
     }
 
     private void OnCoinCountChanged(int count)
