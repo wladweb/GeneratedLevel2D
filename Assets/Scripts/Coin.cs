@@ -19,7 +19,7 @@ public class Coin : MonoBehaviour
         if (collision.TryGetComponent<Player>(out Player player))
         {
             player.AddCoin();
-            SetTransparency();
+            Hide();
             _collectSound.Play();
 
             StartCoroutine(DestroyObjectByEndSound());
@@ -36,7 +36,7 @@ public class Coin : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void SetTransparency()
+    private void Hide()
     {
         _renderer.color = new Color(0, 0, 0, 0);
     }
