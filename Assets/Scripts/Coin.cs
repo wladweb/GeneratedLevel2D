@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(AudioSource))]
 [RequireComponent(typeof(SpriteRenderer))]
@@ -20,24 +21,27 @@ public class Coin : MonoBehaviour
         {
             player.AddCoin();
             Hide();
-            _collectSound.Play();
-
-            StartCoroutine(DestroyObjectByEndSound());
+            StartCoroutine(_collectSound.Play(() => Destroy(gameObject)));
         }
-    }
-
-    private IEnumerator DestroyObjectByEndSound()
-    {
-        while (_collectSound.isPlaying)
-        {
-            yield return null;
-        }
-
-        Destroy(gameObject);
     }
 
     private void Hide()
     {
         _renderer.color = new Color(0, 0, 0, 0);
+    }
+}
+
+public static class AudioSourceExtension
+{
+    public static IEnumerator Play(this AudioSource audioSource, UnityAction callBack)
+    {
+        audioSource.Play();
+
+        while (audioSource.isPlaying)
+        {
+            yield return null;
+        }
+
+        callBack();
     }
 }
